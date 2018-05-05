@@ -1,4 +1,4 @@
-package tijos.sample.sensor.apds9960;
+package tijos.framework.sensor.apds9960;
 
 import java.io.IOException;
 
@@ -6,7 +6,7 @@ import tijos.framework.devicecenter.TiGPIO;
 import tijos.framework.devicecenter.TiI2CMaster;
 import tijos.framework.sensor.apds9960.ITiAPDS9960EventListener;
 import tijos.framework.sensor.apds9960.TiAPDS9960;
-import tijos.util.Delay;
+import tijos.framework.util.Delay;
  
  
 class APDS9960EventListener implements ITiAPDS9960EventListener {

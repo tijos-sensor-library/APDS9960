@@ -10,11 +10,13 @@ import tijos.framework.eventcenter.ITiEventListener;
 import tijos.framework.eventcenter.TiEventService;
 import tijos.framework.eventcenter.TiEventType;
 import tijos.framework.eventcenter.TiGPIOEvent;
-import tijos.util.BigBitConverter;
-import tijos.util.Delay;
+import tijos.framework.util.BigBitConverter;
+import tijos.framework.util.Delay;
 
 /*
  * https://github.com/sparkfun/SparkFun_APDS-9960_Sensor_Arduino_Library
+ * 
+ *  * Status -- under development
  */
 
 class TiAPDS9960Register {
@@ -277,11 +279,11 @@ public class TiAPDS9960  implements ITiEventListener {
 	public void setEventListener(ITiAPDS9960EventListener lc) throws IOException {
 		synchronized (this) {
 			if (apds9960EventLc == null && lc != null) {
-				gpioObj.setPinEvent(signalPin, TiGPIO.EVENT_FALLINGEDGE, 0);
+				gpioObj.setEventParameters(signalPin, TiGPIO.EVT_FALLINGEDGE, 0);
 				TiEventService.getInstance().addListener(this);
 				apds9960EventLc = lc;
 			} else if (apds9960EventLc != null && lc == null) {
-				gpioObj.setPinEvent(signalPin, TiGPIO.EVENT_NONE, 0);
+				gpioObj.setEventParameters(signalPin, TiGPIO.EVT_NONE, 0);
 				TiEventService.getInstance().unregisterEvent(this);
 				apds9960EventLc = null;
 			} else {
@@ -296,7 +298,7 @@ public class TiAPDS9960  implements ITiEventListener {
 	 */
 	public void initialize() throws IOException {
 		
-		this.i2cmObj.setBaudRate(400);
+		this.i2cmObj.setWorkBaudrate(400);
 		
 		/* Read ID register and check against known values for APDS-9960 */
 		int id = wireReadDataByte(TiAPDS9960Register.APDS9960_ID);
@@ -1774,7 +1776,7 @@ public class TiAPDS9960  implements ITiEventListener {
 	}
 
 	@Override
-	public TiEventType getEventType() {
+	public TiEventType getType() {
 		return TiEventType.GPIO;
 	}
 
@@ -1810,4 +1812,5 @@ public class TiAPDS9960  implements ITiEventListener {
 	public long getEventTime() {
 		return eventTime;
 	}
+
 }
